@@ -21,6 +21,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 				@Server(
 						url = "http://localhost:9090",
 						description = "DEV Server"
+				),
+				@Server(
+						url = "https://smartfarm-production-b9d7.up.railway.app",
+						description = "PROD server"
 				)
 		},
 		security = {
