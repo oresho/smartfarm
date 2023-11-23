@@ -46,8 +46,7 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public ApiResponseDto<?> getHarvestPrediction(FarmYieldRequest farmYieldRequest) throws JsonProcessingException {
         WeatherResponse weatherResponse = getWeatherDetails(farmYieldRequest.getLocation());
-        log.info("here===="+weatherResponse.getMain().toString());
-        String jsonResponse = webClient.get()
+        String jsonResponse = client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/predict")
                         .queryParam("temperature", weatherResponse.getMain().getTemp())

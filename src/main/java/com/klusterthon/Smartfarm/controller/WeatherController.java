@@ -32,7 +32,15 @@ public class WeatherController {
     }
 
     @GetMapping("/yield-prediction")
-    public ResponseEntity<?> getPrediction(@Valid @RequestBody FarmYieldRequest farmYieldRequest) throws JsonProcessingException {
+    public ResponseEntity<?> getPrediction(@RequestParam String label,
+                                           @RequestParam String location,
+                                           @RequestParam double ph,
+                                           @RequestParam double water_availability) throws JsonProcessingException {
+        FarmYieldRequest farmYieldRequest = new FarmYieldRequest();
+        farmYieldRequest.setPh(ph);
+        farmYieldRequest.setLocation(location);
+        farmYieldRequest.setLabel(label);
+        farmYieldRequest.setWaterAvailability(water_availability);
         return new ResponseEntity<>(weatherService.getHarvestPrediction(farmYieldRequest), HttpStatus.OK);
     }
 }
