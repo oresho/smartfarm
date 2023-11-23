@@ -7,14 +7,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
@@ -27,4 +25,9 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
         return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.OK);
     }
+
+//    @GetMapping("/forgot-password")
+//    private ResponseEntity<?> forgotPassword(@RequestParam String phoneNo){
+//        return new ResponseEntity<>(authenticationService.forgotPassword(phoneNo), HttpStatus.OK);
+//    }
 }

@@ -7,4 +7,5 @@ import com.klusterthon.Smartfarm.model.response.ApiResponseDto;
 public interface AuthenticationService {
     ApiResponseDto<?> signUp(FarmerRegistrar farmerRegistrar);
     ApiResponseDto<?> login(LoginRequest loginRequest);
+//    ApiResponseDto<?> forgotPassword(String phoneNo);
 }
