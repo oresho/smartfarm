@@ -7,7 +7,10 @@ import com.klusterthon.Smartfarm.model.request.FarmerRegistrar;
 import com.klusterthon.Smartfarm.model.response.ApiResponseDto;
 import com.klusterthon.Smartfarm.model.response.FarmerResponse;
 import com.klusterthon.Smartfarm.service.FarmerService;
+import com.klusterthon.Smartfarm.service.email.EmailEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ import org.springframework.stereotype.Service;
 public class FarmerServiceImpl implements FarmerService {
     private final FarmerRepository farmerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher publisher;
+    @Value("${server.mail.username}")
+    private String mailUsername;
     @Override
     public ApiResponseDto<?> create(FarmerRegistrar farmerRegistrar) {
         if (farmerRepository.findByPhoneNo(farmerRegistrar.getPhoneNo()).isPresent()){
@@ -24,6 +30,7 @@ public class FarmerServiceImpl implements FarmerService {
         }
         Farmer savedFarmer = farmerRepository.save(mapToFarmer(farmerRegistrar));
         FarmerResponse farmerResponse = mapToFarmerResponse(savedFarmer);
+//        publisher.publishEvent(new EmailEvent(farmerRegistrar.getPhoneNo(),"Sign up",mailUsername, "test"));
         return new ApiResponseDto<>(
                 "Successfully Signed up farmer",
                 HttpStatus.CREATED.value(), farmerResponse

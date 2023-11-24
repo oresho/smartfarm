@@ -9,6 +9,7 @@ import com.klusterthon.Smartfarm.service.PredictionService;
 import com.klusterthon.Smartfarm.service.WeatherService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,16 @@ public class PredictionController {
     @Operation(summary = "Get all predictions by logged in farmer")
     @GetMapping()
     public ResponseEntity<?> getAllPredictions(){
+        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(predictionService.getFarmerPredictions(authenticationService.getLoggedInFarmer().getId()), HttpStatus.OK);
+    }
+
+    private static HttpHeaders getHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "*");
+        return headers;
     }
 
     @Operation(summary = "Get yield prediction")
@@ -33,11 +43,17 @@ public class PredictionController {
                                            @RequestParam String location,
                                            @RequestParam double ph,
                                            @RequestParam double water_availability) throws JsonProcessingException {
+        FarmYieldRequest farmYieldRequest = getFarmYieldRequest(label, location, ph, water_availability);
+        HttpHeaders headers = getHttpHeaders();
+        return new ResponseEntity<>(predictionService.getHarvestPrediction(farmYieldRequest), HttpStatus.OK);
+    }
+
+    private static FarmYieldRequest getFarmYieldRequest(String label, String location, double ph, double water_availability) {
         FarmYieldRequest farmYieldRequest = new FarmYieldRequest();
         farmYieldRequest.setPh(ph);
         farmYieldRequest.setLocation(location);
         farmYieldRequest.setLabel(label);
         farmYieldRequest.setWaterAvailability(water_availability);
-        return new ResponseEntity<>(predictionService.getHarvestPrediction(farmYieldRequest), HttpStatus.OK);
+        return farmYieldRequest;
     }
 }
