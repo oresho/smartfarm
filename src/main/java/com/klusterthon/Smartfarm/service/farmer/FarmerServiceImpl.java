@@ -1,4 +1,4 @@
-package com.klusterthon.Smartfarm.service.impl;
+package com.klusterthon.Smartfarm.service.farmer;
 
 import com.klusterthon.Smartfarm.exceptionHandler.ApplicationException;
 import com.klusterthon.Smartfarm.model.entity.Farmer;
@@ -6,8 +6,7 @@ import com.klusterthon.Smartfarm.model.repository.FarmerRepository;
 import com.klusterthon.Smartfarm.model.request.FarmerRegistrar;
 import com.klusterthon.Smartfarm.model.response.ApiResponseDto;
 import com.klusterthon.Smartfarm.model.response.FarmerResponse;
-import com.klusterthon.Smartfarm.service.FarmerService;
-import com.klusterthon.Smartfarm.service.email.EmailEvent;
+import com.klusterthon.Smartfarm.service.farmer.FarmerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,6 +27,9 @@ public class FarmerServiceImpl implements FarmerService {
         if (farmerRepository.findByPhoneNo(farmerRegistrar.getPhoneNo()).isPresent()){
             throw new ApplicationException("This phone number is already used");
         }
+        if (farmerRepository.findByEmail(farmerRegistrar.getEmail()).isPresent()){
+            throw new ApplicationException("This email is already used");
+        }
         Farmer savedFarmer = farmerRepository.save(mapToFarmer(farmerRegistrar));
         FarmerResponse farmerResponse = mapToFarmerResponse(savedFarmer);
 //        publisher.publishEvent(new EmailEvent(farmerRegistrar.getPhoneNo(),"Sign up",mailUsername, "test"));
@@ -40,6 +42,7 @@ public class FarmerServiceImpl implements FarmerService {
     private FarmerResponse mapToFarmerResponse(Farmer savedFarmer) {
         FarmerResponse farmerResponse = new FarmerResponse();
         farmerResponse.setFullName(savedFarmer.getFullName());
+        farmerResponse.setEmail(savedFarmer.getEmail());
         farmerResponse.setPhoneNo(savedFarmer.getPhoneNo());
         farmerResponse.setLocation(savedFarmer.getLocation());
         return farmerResponse;
@@ -48,6 +51,7 @@ public class FarmerServiceImpl implements FarmerService {
     private Farmer mapToFarmer(FarmerRegistrar farmerRegistrar){
         Farmer farmer = new Farmer();
         farmer.setFullName(farmerRegistrar.getFirstname() + " " + farmerRegistrar.getLastname());
+        farmer.setEmail(farmerRegistrar.getEmail());
         farmer.setPhoneNo(farmerRegistrar.getPhoneNo());
         farmer.setLocation(farmerRegistrar.getLocation());
         farmer.setPasswordHash(passwordEncoder.encode(farmerRegistrar.getPassword()));

@@ -1,8 +1,10 @@
 package com.klusterthon.Smartfarm.controller;
 
+import com.klusterthon.Smartfarm.model.request.ChangePasswordRequest;
 import com.klusterthon.Smartfarm.model.request.FarmerRegistrar;
 import com.klusterthon.Smartfarm.model.request.LoginRequest;
-import com.klusterthon.Smartfarm.service.AuthenticationService;
+import com.klusterthon.Smartfarm.model.request.ResetPasswordRequest;
+import com.klusterthon.Smartfarm.service.auth.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +23,16 @@ public class AuthenticationController {
     @Operation(summary = "User attempts to signup")
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@Valid @RequestBody FarmerRegistrar farmerRegistrar){
-        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(authenticationService.signUp(farmerRegistrar),
-                headers,
+                getHttpHeaders(),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "User attempts to login")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
-        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(authenticationService.login(loginRequest),
-                headers,
+                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -44,8 +44,36 @@ public class AuthenticationController {
         return headers;
     }
 
-//    @GetMapping("/forgot-password")
-//    private ResponseEntity<?> forgotPassword(@RequestParam String phoneNo){
-//        return new ResponseEntity<>(authenticationService.forgotPassword(phoneNo), HttpStatus.OK);
-//    }
+
+    @Operation(summary = "User attempts to send otp to email")
+    @PostMapping("/forgot-password")
+    private ResponseEntity<?> forgotPassword(@RequestParam String email){
+        return new ResponseEntity<>(authenticationService.forgotPassword(email),
+                getHttpHeaders(),
+                HttpStatus.OK);
+    }
+
+    @Operation(summary = "User attempts to verify otp")
+    @PostMapping("/verify-OTP")
+    private ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+        return new ResponseEntity<>(authenticationService.resetPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getFarmerEmail()),
+                getHttpHeaders(),
+                HttpStatus.OK);
+    }
+
+    @Operation(summary = "User attempts to change password")
+    @PostMapping("/change-password")
+    private ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
+        return new ResponseEntity<>(authenticationService.changePassword(changePasswordRequest.getNewPassword(), changePasswordRequest.getFarmerEmail()),
+                getHttpHeaders(),
+                HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get User profile")
+    @GetMapping("/user-profile")
+    private ResponseEntity<?> getUserProfile(){
+        return new ResponseEntity<>(authenticationService.getUserProfile(),
+                getHttpHeaders(),
+                HttpStatus.OK);
+    }
 }

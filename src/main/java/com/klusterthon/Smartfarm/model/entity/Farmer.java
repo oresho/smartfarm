@@ -16,7 +16,10 @@ public class Farmer {
     private Long id;
     private String fullName;
     @Column(unique = true)
+    private String email;
+    @Column(unique = true)
     private String phoneNo;
     private String location;
     private String passwordHash;
+    private boolean canResetPassword = false;
 }

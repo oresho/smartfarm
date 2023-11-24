@@ -1,12 +1,9 @@
 package com.klusterthon.Smartfarm.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.klusterthon.Smartfarm.model.entity.Farmer;
-import com.klusterthon.Smartfarm.model.repository.PredictionRepository;
 import com.klusterthon.Smartfarm.model.request.FarmYieldRequest;
-import com.klusterthon.Smartfarm.service.AuthenticationService;
-import com.klusterthon.Smartfarm.service.PredictionService;
-import com.klusterthon.Smartfarm.service.WeatherService;
+import com.klusterthon.Smartfarm.service.auth.AuthenticationService;
+import com.klusterthon.Smartfarm.service.prediction.PredictionService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -25,9 +22,8 @@ public class PredictionController {
     @Operation(summary = "Get all predictions by logged in farmer")
     @GetMapping()
     public ResponseEntity<?> getAllPredictions(){
-        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(predictionService.getFarmerPredictions(authenticationService.getLoggedInFarmer().getId()),
-                headers,
+                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -46,9 +42,8 @@ public class PredictionController {
                                            @RequestParam double ph,
                                            @RequestParam double water_availability) throws JsonProcessingException {
         FarmYieldRequest farmYieldRequest = getFarmYieldRequest(label, location, ph, water_availability);
-        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(predictionService.getHarvestPrediction(farmYieldRequest),
-                headers,
+                getHttpHeaders(),
                 HttpStatus.OK);
     }
 

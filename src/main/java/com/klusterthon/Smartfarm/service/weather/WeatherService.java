@@ -1,4 +1,4 @@
-package com.klusterthon.Smartfarm.service;
+package com.klusterthon.Smartfarm.service.weather;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.klusterthon.Smartfarm.model.request.FarmYieldRequest;

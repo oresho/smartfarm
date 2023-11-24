@@ -1,4 +1,4 @@
-package com.klusterthon.Smartfarm.service;
+package com.klusterthon.Smartfarm.service.farmer;
 
 import com.klusterthon.Smartfarm.model.request.FarmerRegistrar;
 import com.klusterthon.Smartfarm.model.response.ApiResponseDto;

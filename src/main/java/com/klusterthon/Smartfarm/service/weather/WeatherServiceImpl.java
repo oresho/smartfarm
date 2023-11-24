@@ -1,10 +1,10 @@
-package com.klusterthon.Smartfarm.service.impl;
+package com.klusterthon.Smartfarm.service.weather;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.klusterthon.Smartfarm.exceptionHandler.ApplicationException;
 import com.klusterthon.Smartfarm.model.response.WeatherResponse;
-import com.klusterthon.Smartfarm.service.WeatherService;
+import com.klusterthon.Smartfarm.service.weather.WeatherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

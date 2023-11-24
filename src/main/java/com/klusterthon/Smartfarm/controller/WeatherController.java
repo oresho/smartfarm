@@ -1,7 +1,7 @@
 package com.klusterthon.Smartfarm.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.klusterthon.Smartfarm.service.WeatherService;
+import com.klusterthon.Smartfarm.service.weather.WeatherService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -19,10 +19,9 @@ public class WeatherController {
     @Operation(summary = "Get weather details using lat and lon")
     @GetMapping
     public ResponseEntity<?> getWeather(@RequestParam double latitude, @RequestParam double longitude) throws JsonProcessingException {
-        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(
                 weatherService.getWeather(latitude,longitude),
-                headers,
+                getHttpHeaders(),
                 HttpStatus.OK
         );
     }
@@ -38,10 +37,9 @@ public class WeatherController {
     @Operation(summary = "Get weather details using country location")
     @GetMapping("/details")
     public ResponseEntity<?> getWeatherDetails(@RequestParam String location) throws JsonProcessingException {
-        HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(
                 weatherService.getWeatherDetails(location),
-                headers,
+                getHttpHeaders(),
                 HttpStatus.OK
         );
     }

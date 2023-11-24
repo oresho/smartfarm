@@ -11,6 +11,8 @@ public class FarmerRegistrar {
     private String firstname;
     @NotBlank(message = "lastname is required")
     private String lastname;
+    @NotBlank(message = "email is required")
+    private String email;
     @NotBlank(message = "phoneNo is required")
     private String phoneNo;
     @NotBlank(message = "location is required")

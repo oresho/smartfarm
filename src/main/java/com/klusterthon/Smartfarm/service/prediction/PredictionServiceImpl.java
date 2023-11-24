@@ -1,4 +1,4 @@
-package com.klusterthon.Smartfarm.service.impl;
+package com.klusterthon.Smartfarm.service.prediction;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,9 +9,8 @@ import com.klusterthon.Smartfarm.model.request.FarmYieldRequest;
 import com.klusterthon.Smartfarm.model.response.ApiResponseDto;
 import com.klusterthon.Smartfarm.model.response.PredictionResponse;
 import com.klusterthon.Smartfarm.model.response.WeatherResponse;
-import com.klusterthon.Smartfarm.service.AuthenticationService;
-import com.klusterthon.Smartfarm.service.PredictionService;
-import com.klusterthon.Smartfarm.service.WeatherService;
+import com.klusterthon.Smartfarm.service.auth.AuthenticationService;
+import com.klusterthon.Smartfarm.service.weather.WeatherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
