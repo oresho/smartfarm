@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/weather")
+@CrossOrigin("*")
 public class WeatherController {
     private final WeatherService weatherService;
 
@@ -21,6 +22,7 @@ public class WeatherController {
         HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(
                 weatherService.getWeather(latitude,longitude),
+                headers,
                 HttpStatus.OK
         );
     }
@@ -39,6 +41,7 @@ public class WeatherController {
         HttpHeaders headers = getHttpHeaders();
         return new ResponseEntity<>(
                 weatherService.getWeatherDetails(location),
+                headers,
                 HttpStatus.OK
         );
     }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/prediction")
+@CrossOrigin("*")
 public class PredictionController {
     private final PredictionService predictionService;
     private final AuthenticationService authenticationService;
@@ -25,7 +26,9 @@ public class PredictionController {
     @GetMapping()
     public ResponseEntity<?> getAllPredictions(){
         HttpHeaders headers = getHttpHeaders();
-        return new ResponseEntity<>(predictionService.getFarmerPredictions(authenticationService.getLoggedInFarmer().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(predictionService.getFarmerPredictions(authenticationService.getLoggedInFarmer().getId()),
+                headers,
+                HttpStatus.OK);
     }
 
     private static HttpHeaders getHttpHeaders() {
@@ -44,7 +47,9 @@ public class PredictionController {
                                            @RequestParam double water_availability) throws JsonProcessingException {
         FarmYieldRequest farmYieldRequest = getFarmYieldRequest(label, location, ph, water_availability);
         HttpHeaders headers = getHttpHeaders();
-        return new ResponseEntity<>(predictionService.getHarvestPrediction(farmYieldRequest), HttpStatus.OK);
+        return new ResponseEntity<>(predictionService.getHarvestPrediction(farmYieldRequest),
+                headers,
+                HttpStatus.OK);
     }
 
     private static FarmYieldRequest getFarmYieldRequest(String label, String location, double ph, double water_availability) {

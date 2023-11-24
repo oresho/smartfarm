@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@CrossOrigin("*")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
@@ -21,14 +22,18 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@Valid @RequestBody FarmerRegistrar farmerRegistrar){
         HttpHeaders headers = getHttpHeaders();
-        return new ResponseEntity<>(authenticationService.signUp(farmerRegistrar), HttpStatus.CREATED);
+        return new ResponseEntity<>(authenticationService.signUp(farmerRegistrar),
+                headers,
+                HttpStatus.CREATED);
     }
 
     @Operation(summary = "User attempts to login")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
         HttpHeaders headers = getHttpHeaders();
-        return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.OK);
+        return new ResponseEntity<>(authenticationService.login(loginRequest),
+                headers,
+                HttpStatus.OK);
     }
 
     private static HttpHeaders getHttpHeaders() {
