@@ -3,6 +3,7 @@ package com.klusterthon.Smartfarm.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.klusterthon.Smartfarm.model.request.FarmYieldRequest;
 import com.klusterthon.Smartfarm.service.WeatherService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class WeatherController {
     private final WeatherService weatherService;
+
+    @Operation(summary = "Get weather details using lat and lon")
     @GetMapping
     public ResponseEntity<?> getWeather(@RequestParam double latitude, @RequestParam double longitude) throws JsonProcessingException {
         return new ResponseEntity<>(
@@ -23,6 +26,7 @@ public class WeatherController {
         );
     }
 
+    @Operation(summary = "Get weather details using country location")
     @GetMapping("/details")
     public ResponseEntity<?> getWeatherDetails(@RequestParam String location) throws JsonProcessingException {
         return new ResponseEntity<>(
@@ -31,16 +35,5 @@ public class WeatherController {
         );
     }
 
-    @GetMapping("/yield-prediction")
-    public ResponseEntity<?> getPrediction(@RequestParam String label,
-                                           @RequestParam String location,
-                                           @RequestParam double ph,
-                                           @RequestParam double water_availability) throws JsonProcessingException {
-        FarmYieldRequest farmYieldRequest = new FarmYieldRequest();
-        farmYieldRequest.setPh(ph);
-        farmYieldRequest.setLocation(location);
-        farmYieldRequest.setLabel(label);
-        farmYieldRequest.setWaterAvailability(water_availability);
-        return new ResponseEntity<>(weatherService.getHarvestPrediction(farmYieldRequest), HttpStatus.OK);
-    }
+
 }

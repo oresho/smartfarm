@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 HttpStatus.OK.value(),
                 authenticationResponse
         );
+    }
+
+    @Override
+    public Farmer getLoggedInFarmer() {
+        String phoneNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        return farmerRepository.findByPhoneNo(phoneNo)
+                .orElseThrow(()-> new ResourceNotFoundException("Farmer not logged in"));
     }
 
 //    @Override

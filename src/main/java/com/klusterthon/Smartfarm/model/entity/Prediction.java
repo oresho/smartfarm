@@ -13,12 +13,7 @@ public class Prediction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double temp;
-    private double humidity;
-    private double ph;
-    private double waterAvailability;
-    private String season;
-    private String country;
+    private String prediction;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "farmer_id", referencedColumnName = "id")
     private Farmer farmer;

@@ -9,11 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PredictionResponse {
-    private double temp;
-    private double humidity;
-    private double ph;
-    private double waterAvailability;
-    private String season;
-    private String country;
-    private String farmerName;
+    private String prediction;
 }

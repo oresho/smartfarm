@@ -8,6 +8,4 @@ import com.klusterthon.Smartfarm.model.response.WeatherResponse;
 public interface WeatherService {
     WeatherResponse getWeather(double latitude, double longitude) throws JsonProcessingException;
     WeatherResponse getWeatherDetails(String location) throws JsonProcessingException;
-
-    ApiResponseDto<?> getHarvestPrediction(FarmYieldRequest farmYieldRequest) throws JsonProcessingException;
 }
