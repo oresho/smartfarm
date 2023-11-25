@@ -8,4 +8,6 @@ public interface PredictionService {
     ApiResponseDto<?> getFarmerPredictions(Long farmerId);
     ApiResponseDto<?> getHarvestPrediction(FarmYieldRequest farmYieldRequest) throws JsonProcessingException;
 
+    ApiResponseDto<?> getPredictionById(Long id);
+
 }

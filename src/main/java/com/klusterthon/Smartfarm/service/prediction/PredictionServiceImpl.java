@@ -3,6 +3,8 @@ package com.klusterthon.Smartfarm.service.prediction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.klusterthon.Smartfarm.exceptionHandler.ResourceNotFoundException;
+import com.klusterthon.Smartfarm.model.entity.Farmer;
 import com.klusterthon.Smartfarm.model.entity.Prediction;
 import com.klusterthon.Smartfarm.model.repository.PredictionRepository;
 import com.klusterthon.Smartfarm.model.request.FarmYieldRequest;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -62,22 +65,40 @@ public class PredictionServiceImpl implements PredictionService {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(jsonResponse);
         String cleanedString = jsonNode.toString().replaceAll("[\\\\\"{}]", "");
-        savePrediction(cleanedString);
+        PredictionResponse predictionResponse = mapToPredictionResponse(savePrediction(cleanedString, farmYieldRequest.getLabel()));
         return new ApiResponseDto<>("Successfully got prediction",
                 HttpStatus.OK.value(),
-                cleanedString);
+                predictionResponse);
     }
 
-    private void savePrediction(String jsonResponse) {
+    @Override
+    public ApiResponseDto<?> getPredictionById(Long id) {
+        Farmer farmer = authenticationService.getLoggedInFarmer();
+        Prediction prediction = predictionRepository.findByIdAndFarmerId(id, farmer.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("No prediction with this ID"));
+        PredictionResponse predictionResponse = mapToPredictionResponse(prediction);
+        return new ApiResponseDto<>("Successfully got prediction",
+                HttpStatus.OK.value(),
+                predictionResponse);
+    }
+
+    private Prediction savePrediction(String jsonResponse, String crop) {
         Prediction prediction = new Prediction();
         prediction.setPrediction(jsonResponse);
+        prediction.setCrop(crop);
+        prediction.setCreatedAt(LocalDateTime.now());
         prediction.setFarmer(authenticationService.getLoggedInFarmer());
-        predictionRepository.save(prediction);
+        return predictionRepository.save(prediction);
     }
 
     private PredictionResponse mapToPredictionResponse(Prediction prediction){
         PredictionResponse predictionResponse = new PredictionResponse();
+        predictionResponse.setId(prediction.getId());
         predictionResponse.setPrediction(prediction.getPrediction());
+        predictionResponse.setCrop(prediction.getCrop());
+//        predictionResponse.setPlantSzn();
+//        predictionResponse.setHarvSzn();
+        predictionResponse.setCreatedAt(prediction.getCreatedAt());
         return predictionResponse;
     }
 }
