@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/weather")
-@CrossOrigin("*")
+@CrossOrigin(origins = {"*", "http://localhost:3000/"})
 public class WeatherController {
     private final WeatherService weatherService;
 
