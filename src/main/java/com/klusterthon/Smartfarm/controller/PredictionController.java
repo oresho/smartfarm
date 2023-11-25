@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/prediction")
 //@CrossOrigin(origins = {"*", "http://localhost:3000/"})
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class PredictionController {
     private final PredictionService predictionService;
     private final AuthenticationService authenticationService;
 
     @Operation(summary = "Get all predictions by logged in farmer")
-    @GetMapping()
+//    @GetMapping()
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<?> getAllPredictions(){
         return new ResponseEntity<>(predictionService.getFarmerPredictions(authenticationService.getLoggedInFarmer().getId()),
                 getHttpHeaders(),
@@ -37,7 +39,8 @@ public class PredictionController {
     }
 
     @Operation(summary = "Get yield prediction")
-    @GetMapping("/yield-prediction")
+//    @GetMapping("/yield-prediction")
+    @RequestMapping(value = "/yield-prediction", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<?> getPrediction(@RequestParam String label,
                                            @RequestParam String location,
                                            @RequestParam double ph,

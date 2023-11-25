@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/weather")
 //@CrossOrigin(origins = {"*", "http://localhost:3000/"})
-@CrossOrigin("*")public class WeatherController {
+//@CrossOrigin("*")
+public class WeatherController {
     private final WeatherService weatherService;
 
     @Operation(summary = "Get weather details using lat and lon")
-    @GetMapping
+    //    @GetMapping()
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<?> getWeather(@RequestParam double latitude, @RequestParam double longitude) throws JsonProcessingException {
         return new ResponseEntity<>(
                 weatherService.getWeather(latitude,longitude),
@@ -35,7 +38,8 @@ import org.springframework.web.bind.annotation.*;
     }
 
     @Operation(summary = "Get weather details using country location")
-    @GetMapping("/details")
+//    @GetMapping("/details")
+    @RequestMapping(value = "/details", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<?> getWeatherDetails(@RequestParam String location) throws JsonProcessingException {
         return new ResponseEntity<>(
                 weatherService.getWeatherDetails(location),
@@ -43,6 +47,5 @@ import org.springframework.web.bind.annotation.*;
                 HttpStatus.OK
         );
     }
-
 
 }
