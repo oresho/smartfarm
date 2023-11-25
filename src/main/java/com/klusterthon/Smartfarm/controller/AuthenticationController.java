@@ -27,7 +27,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<?> signUp(@Valid @RequestBody FarmerRegistrar farmerRegistrar){
         return new ResponseEntity<>(authenticationService.signUp(farmerRegistrar),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.CREATED);
     }
 
@@ -36,7 +36,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
         return new ResponseEntity<>(authenticationService.login(loginRequest),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/forgot-password", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     private ResponseEntity<?> forgotPassword(@RequestParam String email){
         return new ResponseEntity<>(authenticationService.forgotPassword(email),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/verify-OTP", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     private ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
         return new ResponseEntity<>(authenticationService.resetPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getFarmerEmail()),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -72,7 +72,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/change-password", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     private ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
         return new ResponseEntity<>(authenticationService.changePassword(changePasswordRequest.getNewPassword(), changePasswordRequest.getFarmerEmail()),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -81,7 +81,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/user-profile", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     private ResponseEntity<?> getUserProfile(){
         return new ResponseEntity<>(authenticationService.getUserProfile(),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 }

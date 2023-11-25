@@ -24,7 +24,7 @@ public class WeatherController {
     public ResponseEntity<?> getWeather(@RequestParam double latitude, @RequestParam double longitude) throws JsonProcessingException {
         return new ResponseEntity<>(
                 weatherService.getWeather(latitude,longitude),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK
         );
     }
@@ -43,7 +43,7 @@ public class WeatherController {
     public ResponseEntity<?> getWeatherDetails(@RequestParam String location) throws JsonProcessingException {
         return new ResponseEntity<>(
                 weatherService.getWeatherDetails(location),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK
         );
     }

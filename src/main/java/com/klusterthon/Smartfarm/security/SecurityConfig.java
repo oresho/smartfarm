@@ -26,6 +26,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -42,15 +43,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(httpSecurityCorsConfigurer -> {
-                    CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-                    configuration.setAllowedMethods(Arrays.asList("*"));
-                    configuration.setAllowedHeaders(Arrays.asList("*"));
-                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                    source.registerCorsConfiguration("/**", configuration);
-                    httpSecurityCorsConfigurer.configurationSource(source);
-                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,6 +53,15 @@ public class SecurityConfig {
                             .authenticated();
                 })
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(httpSecurityCorsConfigurer -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(List.of("*","http://localhost:3000"));
+                    configuration.setAllowedMethods(List.of("*"));
+                    configuration.setAllowedHeaders(List.of("*"));
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                    source.registerCorsConfiguration("/**", configuration);
+                    httpSecurityCorsConfigurer.configurationSource(source);
+                })
                 .logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())));
         return http.build();
@@ -83,23 +84,5 @@ public class SecurityConfig {
             throws Exception {
         return config.getAuthenticationManager();
     }
-
-//        @Bean
-//    public CorsConfigurationSource simpleCorsFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.setAllowedOrigins(Collections.singletonList("*"));
-//        config.setAllowedMethods(Collections.singletonList("*"));
-//        config.setAllowedHeaders(Collections.singletonList("*"));
-//
-//        source.registerCorsConfiguration("/**", config);
-//
-////        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-////        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//
-//        return source;
-//    }
 }
 

@@ -26,7 +26,7 @@ public class PredictionController {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<?> getAllPredictions(){
         return new ResponseEntity<>(predictionService.getFarmerPredictions(authenticationService.getLoggedInFarmer().getId()),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
@@ -47,7 +47,7 @@ public class PredictionController {
                                            @RequestParam double water_availability) throws JsonProcessingException {
         FarmYieldRequest farmYieldRequest = getFarmYieldRequest(label, location, ph, water_availability);
         return new ResponseEntity<>(predictionService.getHarvestPrediction(farmYieldRequest),
-                getHttpHeaders(),
+//                getHttpHeaders(),
                 HttpStatus.OK);
     }
 
