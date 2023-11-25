@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/prediction")
-@CrossOrigin(origins = {"*", "http://localhost:3000/"})
+//@CrossOrigin(origins = {"*", "http://localhost:3000/"})
+@CrossOrigin("*")
 public class PredictionController {
     private final PredictionService predictionService;
     private final AuthenticationService authenticationService;
