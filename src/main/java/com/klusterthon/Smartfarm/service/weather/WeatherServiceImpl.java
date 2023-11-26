@@ -33,6 +33,7 @@ public class WeatherServiceImpl implements WeatherService {
             case "South Africa" -> getWeather(-30.5595, 22.9375);
             case "Kenya" -> getWeather(0.0236, 37.9062);
             case "Nigeria" -> getWeather(9.0820, 8.6753);
+            case "Sudan" -> getWeather(12.8628, 30.2176);
             default ->
                     throw new ApplicationException("AI cannot generate weather details for this location: " + location);
         };
