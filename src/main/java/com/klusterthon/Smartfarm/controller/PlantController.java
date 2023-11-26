@@ -28,6 +28,6 @@ public class PlantController {
     @Operation(summary = "Create plant tracking record of logged in farmer")
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<?> addNewPlant(@Valid @RequestBody PlantRequest plantRequest){
-        return new ResponseEntity<>(plantService.create(plantRequest), HttpStatus.OK);
+        return new ResponseEntity<>(plantService.create(plantRequest), HttpStatus.CREATED);
     }
 }
