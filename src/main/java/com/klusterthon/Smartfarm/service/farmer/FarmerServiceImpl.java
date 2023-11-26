@@ -32,7 +32,6 @@ public class FarmerServiceImpl implements FarmerService {
         }
         Farmer savedFarmer = farmerRepository.save(mapToFarmer(farmerRegistrar));
         FarmerResponse farmerResponse = mapToFarmerResponse(savedFarmer);
-//        publisher.publishEvent(new EmailEvent(farmerRegistrar.getPhoneNo(),"Sign up",mailUsername, "test"));
         return new ApiResponseDto<>(
                 "Successfully Signed up farmer",
                 HttpStatus.CREATED.value(), farmerResponse

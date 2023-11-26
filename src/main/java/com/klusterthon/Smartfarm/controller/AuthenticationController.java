@@ -42,14 +42,14 @@ public class AuthenticationController {
 
     @Operation(summary = "User attempts to verify otp")
     @RequestMapping(value = "/verify-OTP", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    private ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+    private ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest){
         return new ResponseEntity<>(authenticationService.resetPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getFarmerEmail()),
                 HttpStatus.OK);
     }
 
     @Operation(summary = "User attempts to change password")
     @RequestMapping(value = "/change-password", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    private ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
+    private ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest){
         return new ResponseEntity<>(authenticationService.changePassword(changePasswordRequest.getNewPassword(), changePasswordRequest.getFarmerEmail()),
                 HttpStatus.OK);
     }
