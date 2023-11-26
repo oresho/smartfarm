@@ -22,7 +22,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Farmer farmer = farmerRepository.findByEmail(username)
                 .orElseThrow(() -> new ApplicationException("User does not exist"));
-        User user = new User(farmer.getPhoneNo(), farmer.getPasswordHash(), List.of(new SimpleGrantedAuthority("USER")));
+        User user = new User(farmer.getEmail(), farmer.getPasswordHash(), List.of(new SimpleGrantedAuthority("USER")));
         return user;
     }
 }
